@@ -13,6 +13,7 @@ yarn-error.log*
 
 # Build outputs
 .next/
+.next
 out/
 build/
 dist/
@@ -58,8 +59,15 @@ jspm_packages/
 .cache
 .parcel-cache
 
-# Next.js build output
+# Next.js build output and cache
+.next/
 .next
+.next/cache/
+.next/server/
+.next/static/
+.next/trace
+.next/types/
+.next/webpack/
 
 # Nuxt.js build / generate output
 .nuxt
@@ -155,3 +163,199 @@ pids
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Additional generated files and build artifacts
+# Generated documentation
+docs/build/
+docs/_build/
+docs/.doctrees/
+
+# Generated API docs
+api-docs/
+swagger/
+
+# Generated test reports
+test-results/
+coverage/
+.nyc_output/
+junit.xml
+test-report.xml
+
+# Generated lock files (if you want to ignore them)
+# package-lock.json
+# yarn.lock
+
+# Generated flow files
+.flow/
+
+# Generated subgraph files
+subgraph/generated/
+subgraph/build/
+
+# Next.js specific generated files
+.next/cache/
+.next/server/
+.next/static/
+.next/trace
+.next/types/
+.next/webpack/
+.next/build-manifest.json
+.next/prerender-manifest.json
+.next/routes-manifest.json
+.next/server-manifest.json
+.next/static/chunks/
+.next/static/css/
+.next/static/media/
+.next/static/webpack/
+
+# Generated contract artifacts
+contracts/build/
+contracts/artifacts/
+contracts/cache/
+
+# Generated blockchain files
+.flow/
+flow.json.bak
+
+# Generated health data exports
+exports/
+health-data-exports/
+
+# Generated reports
+reports/
+analytics/
+
+# Generated images and media
+generated-images/
+temp-media/
+
+# Generated CSS
+*.css.map
+*.scss.map
+
+# Generated JavaScript
+*.js.map
+*.min.js
+
+# Generated TypeScript declaration files
+*.d.ts.map
+
+# Generated bundle analysis
+bundle-analyzer-report.html
+
+# Generated sitemaps
+sitemap.xml
+sitemap-*.xml
+
+# Generated robots.txt
+robots.txt
+
+# Generated manifest files
+manifest.json
+manifest.webmanifest
+
+# Generated service worker
+sw.js
+workbox-*.js
+
+# Generated PWA files
+*.webmanifest
+
+# Generated favicon files
+favicon-*.ico
+apple-touch-icon*.png
+
+# Generated social media images
+social-*.png
+og-image*.png
+
+# Generated screenshots
+screenshots/
+test-screenshots/
+
+# Generated videos
+*.mp4
+*.webm
+*.mov
+
+# Generated audio
+*.mp3
+*.wav
+*.ogg
+
+# Generated PDFs
+*.pdf
+
+# Generated Excel/CSV files
+*.xlsx
+*.csv
+exports/
+
+# Generated backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Generated temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Generated cache directories
+.cache/
+cache/
+.cache-*/
+
+# Generated logs from tools
+.eslintcache
+.stylelintcache
+.prettiercache
+
+# Generated lock files from package managers
+.npmrc
+.yarnrc
+.yarnrc.yml
+
+# Generated IDE workspace files
+*.code-workspace
+.vscode/settings.json
+.vscode/extensions.json
+
+# Generated OS files
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Generated Windows files
+*.lnk
+*.url
+
+# Generated Linux files
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Generated macOS files
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
