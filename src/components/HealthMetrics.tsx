@@ -125,7 +125,7 @@ export const HealthMetrics = () => {
               }}
             >
               <Smartphone style={{ width: '16px', height: '16px' }} />
-              <span>{isLoading ? 'Syncing...' : 'Sync Wearable'}</span>
+              <span>{isLoading ? 'Syncing...' : 'Sync WHOOP'}</span>
             </button>
             
             <button

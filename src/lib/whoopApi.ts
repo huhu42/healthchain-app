@@ -53,7 +53,7 @@ export interface WhoopStrainData {
 }
 
 class WhoopApiService {
-  private baseUrl = 'https://api.whoop.com/developer/v1';
+  private baseUrl = 'https://api.prod.whoop.com/developer/v2';
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
 
@@ -70,49 +70,82 @@ class WhoopApiService {
     const clientId = process.env.NEXT_PUBLIC_WHOOP_CLIENT_ID || '07873865-1460-4bd5-9874-4ad4e5e09ae1';
     const redirectUri = process.env.NEXT_PUBLIC_WHOOP_REDIRECT_URI || 'http://localhost:3001/callback';
     
-    return `https://api.whoop.com/oauth/authorize?` +
+    // Generate a secure random state parameter (required by WHOOP OAuth)
+    const state = this.generateSecureState();
+    
+    // Store the state for verification
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('whoop_oauth_state', state);
+    }
+    
+    // Use the correct WHOOP v2 OAuth endpoint
+    return `https://api.prod.whoop.com/oauth/oauth2/auth?` +
            `client_id=${clientId}&` +
            `redirect_uri=${encodeURIComponent(redirectUri)}&` +
            `response_type=code&` +
-           `scope=read:recovery read:sleep read:workout read:profile`;
+           `state=${state}&` +
+           `scope=read:recovery read:sleep read:workout read:profile read:cycles read:body_measurement`;
   }
 
   // Handle OAuth callback and exchange code for tokens
   async handleAuthCallback(code: string): Promise<WhoopAuthResponse> {
-    const clientId = process.env.NEXT_PUBLIC_WHOOP_CLIENT_ID || '07873865-1460-4bd5-9874-4ad4e5e09ae1';
-    const clientSecret = process.env.WHOOP_CLIENT_SECRET || 'e110d5edbc049fbbd72677447c744bf2da4c2095e04284dc39c85adb8bb74aad';
     const redirectUri = process.env.NEXT_PUBLIC_WHOOP_REDIRECT_URI || 'http://localhost:3001/callback';
 
-    const response = await fetch('https://api.whoop.com/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: clientId,
-        client_secret: clientSecret,
-        code: code,
-        redirect_uri: redirectUri,
-      }),
-    });
+    console.log('🔐 WHOOP Token Exchange via Server Route:');
+    console.log('📋 Code length:', code.length);
+    console.log('🌐 Redirect URI:', redirectUri);
 
-    if (!response.ok) {
-      throw new Error('Failed to exchange authorization code for tokens');
+    try {
+      // Use our server-side API route to avoid CORS issues
+      const response = await fetch('/api/whoop/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          code: code,
+          redirectUri: redirectUri,
+        }),
+      });
+
+      console.log('📡 Server route response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('❌ Server token exchange failed:', errorData);
+        throw new Error(`Server token exchange failed: ${errorData.error} - ${errorData.details || ''}`);
+      }
+
+      const data = await response.json();
+      console.log('✅ Server token exchange successful:', {
+        access_token_length: data.access_token?.length || 0,
+        refresh_token_length: data.refresh_token?.length || 0,
+        expires_in: data.expires_in,
+        token_type: data.token_type
+      });
+      
+      // Store tokens
+      this.accessToken = data.access_token;
+      this.refreshToken = data.refresh_token;
+      
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('whoop_access_token', data.access_token);
+        localStorage.setItem('whoop_refresh_token', data.refresh_token);
+      }
+
+      // Convert to WhoopAuthResponse format
+      const authResponse: WhoopAuthResponse = {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        expires_in: data.expires_in,
+        token_type: data.token_type
+      };
+
+      return authResponse;
+    } catch (fetchError) {
+      console.error('❌ Fetch error during server token exchange:', fetchError);
+      throw new Error(`Server token exchange error: ${fetchError instanceof Error ? fetchError.message : 'Unknown error'}`);
     }
-
-    const data: WhoopAuthResponse = await response.json();
-    
-    // Store tokens
-    this.accessToken = data.access_token;
-    this.refreshToken = data.refresh_token;
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('whoop_access_token', data.access_token);
-      localStorage.setItem('whoop_refresh_token', data.refresh_token);
-    }
-
-    return data;
   }
 
   // Refresh access token
@@ -124,7 +157,7 @@ class WhoopApiService {
     const clientId = process.env.NEXT_PUBLIC_WHOOP_CLIENT_ID || '07873865-1460-4bd5-9874-4ad4e5e09ae1';
     const clientSecret = process.env.WHOOP_CLIENT_SECRET || 'e110d5edbc049fbbd72677447c744bf2da4c2095e04284dc39c85adb8bb74aad';
 
-    const response = await fetch('https://api.whoop.com/oauth/token', {
+    const response = await fetch('https://api.prod.whoop.com/oauth/oauth2/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -153,7 +186,7 @@ class WhoopApiService {
   async getUserProfile(): Promise<WhoopUser> {
     await this.ensureValidToken();
     
-    const response = await fetch(`${this.baseUrl}/user/profile`, {
+    const response = await fetch(`${this.baseUrl}/user/profile/basic`, {
       headers: {
         'Authorization': `Bearer ${this.accessToken}`,
       },
@@ -175,7 +208,7 @@ class WhoopApiService {
     startDate.setDate(startDate.getDate() - days);
 
     const response = await fetch(
-      `${this.baseUrl}/user/recovery?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
+      `${this.baseUrl}/activity/recovery?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
       {
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
@@ -188,7 +221,7 @@ class WhoopApiService {
     }
 
     const data = await response.json();
-    return data.recoveries || [];
+    return data.records || [];
   }
 
   // Get sleep data for the last 7 days
@@ -200,7 +233,7 @@ class WhoopApiService {
     startDate.setDate(startDate.getDate() - days);
 
     const response = await fetch(
-      `${this.baseUrl}/user/sleep?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
+      `${this.baseUrl}/activity/sleep?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
       {
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
@@ -213,7 +246,7 @@ class WhoopApiService {
     }
 
     const data = await response.json();
-    return data.sleeps || [];
+    return data.records || [];
   }
 
   // Get strain data for the last 7 days
@@ -225,7 +258,7 @@ class WhoopApiService {
     startDate.setDate(startDate.getDate() - days);
 
     const response = await fetch(
-      `${this.baseUrl}/user/strain?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
+      `${this.baseUrl}/cycle?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
       {
         headers: {
           'Authorization': `Bearer ${this.accessToken}`,
@@ -238,7 +271,7 @@ class WhoopApiService {
     }
 
     const data = await response.json();
-    return data.strains || [];
+    return data.records || [];
   }
 
   // Get all health data in a unified format
@@ -323,6 +356,13 @@ class WhoopApiService {
       localStorage.removeItem('whoop_access_token');
       localStorage.removeItem('whoop_refresh_token');
     }
+  }
+
+  // Generate a secure random state parameter for OAuth
+  private generateSecureState(): string {
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   }
 
   // Ensure we have a valid token, refresh if needed

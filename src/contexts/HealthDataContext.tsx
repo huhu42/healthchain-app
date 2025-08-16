@@ -240,7 +240,7 @@ export const HealthDataProvider: React.FC<HealthDataProviderProps> = ({ children
       // Convert WHOOP data to HealthMetric format
       const syncData: HealthMetric[] = whoopData.map(data => ({
         id: data.id,
-        type: data.type === 'recovery' ? 'heart_rate' : data.type === 'strain' ? 'activity' : data.type,
+        type: data.type === 'recovery' ? 'recovery' : data.type === 'strain' ? 'strain' : data.type,
         value: data.value,
         timestamp: new Date(data.timestamp),
         unit: data.unit,
