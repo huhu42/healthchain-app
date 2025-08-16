@@ -1,7 +1,8 @@
 'use client'
 
 import { useRouter, usePathname } from 'next/navigation'
-import { Heart, Target, TrendingUp, Shield, Users, Globe } from 'lucide-react'
+import { Heart, Target, TrendingUp, Shield, Globe } from 'lucide-react'
+import { ConnectButton } from './ConnectButton'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -44,7 +45,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <div style={{ width: '8px', height: '8px', background: '#22c55e', borderRadius: '50%', animation: 'pulse 2s infinite' }}></div>
                 <span style={{ fontSize: '14px', color: '#15803d', fontWeight: '500' }}>Flow Connected</span>
               </div>
-              <Users style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <ConnectButton />
             </div>
           </div>
         </div>

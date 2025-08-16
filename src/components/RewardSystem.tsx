@@ -35,7 +35,7 @@ export const RewardSystem = () => {
     },
     {
       label: 'Wallet Balance',
-      value: `$${balance.toFixed(2)}`,
+      value: `${typeof balance === 'string' ? balance : balance.toFixed(2)} ETH`,
       icon: DollarSign,
       color: 'blue'
     },
@@ -502,7 +502,7 @@ export const RewardSystem = () => {
                   border: '1px solid rgba(59, 130, 246, 0.3)'
                 }}>
                   <p style={{ fontSize: '14px', color: '#3b82f6', margin: 0 }}>
-                    Current wallet balance: ${balance.toFixed(2)}
+                    Current wallet balance: {typeof balance === 'string' ? balance : balance.toFixed(2)} ETH
                   </p>
                 </div>
               </div>
