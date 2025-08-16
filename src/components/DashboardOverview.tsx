@@ -1,10 +1,11 @@
 'use client'
 
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion'
 import { Heart, Target, TrendingUp, DollarSign, Users, Activity } from 'lucide-react'
 import { useHealthData } from '../contexts/HealthDataContext'
 import { useWeb3 } from '../contexts/Web3Context'
 import { useFlow } from '../contexts/FlowContext'
+import { Card } from './ui'
 
 export const DashboardOverview = () => {
   const { healthMetrics, goals } = useHealthData()
@@ -49,151 +50,212 @@ export const DashboardOverview = () => {
   ]
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
-        <h2 className="text-2xl font-bold mb-2">Welcome to HealthChain</h2>
-        <p className="opacity-90">
+      <div style={{ 
+        background: 'rgba(255, 255, 255, 0.15)', 
+        borderRadius: '20px', 
+        padding: '32px', 
+        backdropFilter: 'blur(20px)', 
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <h2 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '8px', color: 'white', margin: '0 0 8px 0' }}>
+          Welcome to HealthChain
+        </h2>
+        <p style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '18px', margin: '0 0 24px 0' }}>
           {user.loggedIn 
             ? `Connected as ${user.addr?.slice(0, 8)}...${user.addr?.slice(-6)}`
             : 'Track your health, earn rewards, and take control of your data'
           }
         </p>
-        <div className="flex items-center space-x-4 mt-4">
-          <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${user.loggedIn ? 'bg-green-400' : 'bg-red-400'}`}></div>
-            <span className="text-sm">Flow {user.loggedIn ? 'Connected' : 'Disconnected'}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}>
+            <div style={{ 
+              width: '8px', 
+              height: '8px', 
+              borderRadius: '50%', 
+              background: user.loggedIn ? '#22c55e' : '#ef4444',
+              animation: 'pulse 2s infinite'
+            }}></div>
+            <span style={{ fontSize: '14px', color: 'white' }}>Flow {user.loggedIn ? 'Connected' : 'Disconnected'}</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-            <span className="text-sm">Coinbase {isConnected ? 'Connected' : 'Disconnected'}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}>
+            <div style={{ 
+              width: '8px', 
+              height: '8px', 
+              borderRadius: '50%', 
+              background: isConnected ? '#22c55e' : '#ef4444',
+              animation: 'pulse 2s infinite'
+            }}></div>
+            <span style={{ fontSize: '14px', color: 'white' }}>Coinbase {isConnected ? 'Connected' : 'Disconnected'}</span>
           </div>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(4, 1fr)', 
+        gap: '16px'
+      }}>
         {stats.map((stat, index) => {
           const Icon = stat.icon
+          const iconColors = {
+            'text-blue-600': '#2563eb',
+            'text-green-600': '#16a34a', 
+            'text-purple-600': '#9333ea',
+            'text-yellow-600': '#ca8a04'
+          }
+          const bgColors = {
+            'bg-blue-100': 'rgba(59, 130, 246, 0.1)',
+            'bg-green-100': 'rgba(34, 197, 94, 0.1)',
+            'bg-purple-100': 'rgba(147, 51, 234, 0.1)',
+            'bg-yellow-100': 'rgba(234, 179, 8, 0.1)'
+          }
+          
           return (
-            <motion.div
+            <div 
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-lg p-6 shadow-sm border"
+              style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                borderRadius: '16px',
+                padding: '24px',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-4px)';
+                e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0px)';
+                e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+              }}
             >
-              <div className="flex items-center justify-between">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p className="text-gray-600 text-sm">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                  <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px', margin: '0 0 8px 0' }}>{stat.label}</p>
+                  <p style={{ color: 'white', fontSize: '28px', fontWeight: 'bold', margin: 0 }}>{stat.value}</p>
                 </div>
-                <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                  <Icon className={`w-6 h-6 ${stat.color}`} />
+                <div style={{ 
+                  padding: '12px', 
+                  borderRadius: '12px', 
+                  background: bgColors[stat.bgColor] || 'rgba(255, 255, 255, 0.1)'
+                }}>
+                  <Icon style={{ width: '24px', height: '24px', color: iconColors[stat.color] || 'white' }} />
                 </div>
               </div>
-            </motion.div>
+            </div>
           )
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Content Row - Side by Side */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         {/* Recent Health Metrics */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Health Data</h3>
-            <Activity className="w-5 h-5 text-gray-400" />
-          </div>
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.15)', 
+          borderRadius: '16px', 
+          padding: '24px', 
+          backdropFilter: 'blur(20px)', 
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h3 style={{ fontSize: '18px', fontWeight: '600', color: 'white', margin: '0 0 16px 0' }}>
+            Recent Health Data
+          </h3>
           
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {recentMetrics.length > 0 ? (
-              recentMetrics.map((metric) => (
-                <div key={metric.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${
-                      metric.type === 'sleep' ? 'bg-purple-500' :
-                      metric.type === 'steps' ? 'bg-green-500' :
-                      metric.type === 'heart_rate' ? 'bg-red-500' :
-                      'bg-blue-500'
-                    }`}></div>
-                    <div>
-                      <p className="font-medium text-gray-900 capitalize">{metric.type.replace('_', ' ')}</p>
-                      <p className="text-sm text-gray-500">{metric.timestamp.toLocaleDateString()}</p>
-                    </div>
+              recentMetrics.slice(0, 3).map((metric) => (
+                <div key={metric.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ 
+                      width: '8px', 
+                      height: '8px', 
+                      borderRadius: '50%', 
+                      background: metric.type === 'sleep' ? '#8b5cf6' :
+                                 metric.type === 'steps' ? '#10b981' :
+                                 metric.type === 'heart_rate' ? '#ef4444' : '#3b82f6'
+                    }}></div>
+                    <span style={{ color: 'white', fontSize: '14px', textTransform: 'capitalize' }}>
+                      {metric.type.replace('_', ' ')}
+                    </span>
                   </div>
-                  <div className="text-right">
-                    <p className="font-semibold text-gray-900">{metric.value} {metric.unit}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ color: 'white', fontSize: '14px', fontWeight: '600' }}>
+                      {metric.value} {metric.unit}
+                    </span>
                     {metric.verified && (
-                      <p className="text-xs text-green-600">✓ Verified</p>
+                      <span style={{ fontSize: '12px', color: '#22c55e' }}>✓</span>
                     )}
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500 text-center py-4">No health data yet. Connect your wearable or add data manually.</p>
+              <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '14px', margin: 0 }}>
+                No health data yet
+              </p>
             )}
           </div>
         </div>
 
-        {/* Active Goals */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Active Goals</h3>
-            <Target className="w-5 h-5 text-gray-400" />
-          </div>
+        {/* Active Goals - Only Show One */}
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.15)', 
+          borderRadius: '16px', 
+          padding: '24px', 
+          backdropFilter: 'blur(20px)', 
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h3 style={{ fontSize: '18px', fontWeight: '600', color: 'white', margin: '0 0 16px 0' }}>
+            Active Goals
+          </h3>
           
-          <div className="space-y-3">
-            {activeGoals.length > 0 ? (
-              activeGoals.map((goal) => (
-                <div key={goal.id} className="p-4 border rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-gray-900">{goal.title}</h4>
-                    <span className="text-sm text-green-600 font-medium">${goal.reward}</span>
-                  </div>
-                  
-                  <div className="mb-2">
-                    <div className="flex justify-between text-sm text-gray-600 mb-1">
-                      <span>Progress</span>
-                      <span>{goal.currentValue} / {goal.targetValue}</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-blue-500 h-2 rounded-full transition-all"
-                        style={{ width: `${Math.min((goal.currentValue / goal.targetValue) * 100, 100)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  <p className="text-xs text-gray-500">
-                    Deadline: {goal.deadline.toLocaleDateString()}
-                  </p>
+          {activeGoals.length > 0 ? (
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <h4 style={{ fontWeight: '600', color: 'white', margin: 0, fontSize: '16px' }}>
+                  {activeGoals[0].title}
+                </h4>
+                <span style={{ fontSize: '14px', color: '#22c55e', fontWeight: '600' }}>
+                  ${activeGoals[0].reward}
+                </span>
+              </div>
+              <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', margin: '0 0 12px 0' }}>
+                {activeGoals[0].description}
+              </p>
+              <div style={{ marginBottom: '8px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '4px' }}>
+                  <span>Progress</span>
+                  <span>{activeGoals[0].currentValue} / {activeGoals[0].targetValue}</span>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-center py-4">No active goals. Create your first health goal to start earning rewards!</p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 border-2 border-dashed border-blue-300 rounded-lg text-blue-600 hover:border-blue-500 hover:bg-blue-50 transition-colors">
-            <Target className="w-6 h-6 mx-auto mb-2" />
-            <p className="font-medium">Create New Goal</p>
-          </button>
-          
-          <button className="p-4 border-2 border-dashed border-green-300 rounded-lg text-green-600 hover:border-green-500 hover:bg-green-50 transition-colors">
-            <Heart className="w-6 h-6 mx-auto mb-2" />
-            <p className="font-medium">Add Health Data</p>
-          </button>
-          
-          <button className="p-4 border-2 border-dashed border-purple-300 rounded-lg text-purple-600 hover:border-purple-500 hover:bg-purple-50 transition-colors">
-            <Users className="w-6 h-6 mx-auto mb-2" />
-            <p className="font-medium">Share with Family</p>
-          </button>
+                <div style={{ width: '100%', background: 'rgba(255, 255, 255, 0.2)', borderRadius: '4px', height: '4px' }}>
+                  <div 
+                    style={{ 
+                      background: '#22c55e', 
+                      height: '4px', 
+                      borderRadius: '4px', 
+                      width: `${Math.min((activeGoals[0].currentValue / activeGoals[0].targetValue) * 100, 100)}%`,
+                      transition: 'width 0.3s ease'
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
+                Sponsored by: {activeGoals[0].sponsor}
+              </div>
+            </div>
+          ) : (
+            <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '14px', margin: 0 }}>
+              No active goals yet
+            </p>
+          )}
         </div>
       </div>
     </div>

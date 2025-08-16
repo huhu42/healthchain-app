@@ -88,30 +88,73 @@ export const HealthMetrics = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Header */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+      <div style={{ 
+        background: 'rgba(255, 255, 255, 0.15)', 
+        borderRadius: '20px', 
+        padding: '32px', 
+        backdropFilter: 'blur(20px)', 
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Health Metrics</h2>
-            <p className="text-gray-600 mt-1">Track and monitor your health data over time</p>
+            <h2 style={{ fontSize: '28px', fontWeight: 'bold', color: 'white', margin: '0 0 8px 0' }}>Health Metrics</h2>
+            <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '16px', margin: 0 }}>Track and monitor your health data over time</p>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button
               onClick={syncWithWearable}
               disabled={isLoading}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 20px',
+                background: isLoading ? 'rgba(59, 130, 246, 0.5)' : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                color: 'white',
+                borderRadius: '12px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 16px rgba(59, 130, 246, 0.3)'
+              }}
             >
-              <Smartphone className="w-4 h-4" />
+              <Smartphone style={{ width: '16px', height: '16px' }} />
               <span>{isLoading ? 'Syncing...' : 'Sync Wearable'}</span>
             </button>
             
             <button
               onClick={() => setShowAddForm(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 20px',
+                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                color: 'white',
+                borderRadius: '12px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 16px rgba(34, 197, 94, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                (e.target as HTMLElement).style.boxShadow = '0 8px 24px rgba(34, 197, 94, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.transform = 'translateY(0)';
+                (e.target as HTMLElement).style.boxShadow = '0 4px 16px rgba(34, 197, 94, 0.3)';
+              }}
             >
-              <Plus className="w-4 h-4" />
+              <Plus style={{ width: '16px', height: '16px' }} />
               <span>Add Data</span>
             </button>
           </div>
@@ -119,44 +162,66 @@ export const HealthMetrics = () => {
       </div>
 
       {/* Metric Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
         {metricTypes.map((type) => {
           const summary = getMetricSummary(type.value)
           const Icon = type.icon
+          const isSelected = selectedMetric === type.value
           
           return (
             <motion.div
               key={type.value}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`bg-white rounded-lg p-4 shadow-sm border cursor-pointer transition-all ${
-                selectedMetric === type.value ? `ring-2 ring-${type.color}-500` : 'hover:shadow-md'
-              }`}
+              style={{
+                background: isSelected ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.15)',
+                borderRadius: '16px',
+                padding: '20px',
+                backdropFilter: 'blur(20px)',
+                border: isSelected ? '2px solid rgba(59, 130, 246, 0.5)' : '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
               onClick={() => setSelectedMetric(selectedMetric === type.value ? 'all' : type.value)}
+              onMouseEnter={(e) => {
+                if (!isSelected) {
+                  (e.target as HTMLElement).style.transform = 'translateY(-4px)';
+                  (e.target as HTMLElement).style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected) {
+                  (e.target as HTMLElement).style.transform = 'translateY(0)';
+                  (e.target as HTMLElement).style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                }
+              }}
             >
-              <div className="flex items-center justify-between mb-2">
-                <Icon className={`w-5 h-5 text-${type.color}-500`} />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <Icon style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
                 {summary?.trend && (
-                  <TrendingUp className={`w-4 h-4 ${
-                    summary.trend === 'up' ? 'text-green-500' : 
-                    summary.trend === 'down' ? 'text-red-500' : 'text-gray-400'
-                  }`} />
+                  <TrendingUp style={{
+                    width: '16px', 
+                    height: '16px',
+                    color: summary.trend === 'up' ? '#22c55e' : 
+                           summary.trend === 'down' ? '#ef4444' : 'rgba(255, 255, 255, 0.5)'
+                  }} />
                 )}
               </div>
               
-              <h3 className="font-medium text-gray-900 mb-1">{type.label}</h3>
+              <h3 style={{ fontWeight: '500', color: 'white', marginBottom: '8px', fontSize: '16px' }}>{type.label}</h3>
               
               {summary ? (
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {summary.latest.value} <span className="text-sm text-gray-500">{type.unit}</span>
+                  <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: '0 0 4px 0' }}>
+                    {summary.latest.value} <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>{type.unit}</span>
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>
                     Avg: {summary.average.toFixed(1)} {type.unit}
                   </p>
                 </div>
               ) : (
-                <p className="text-sm text-gray-500">No data</p>
+                <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>No data</p>
               )}
             </motion.div>
           )
@@ -164,89 +229,163 @@ export const HealthMetrics = () => {
       </div>
 
       {/* Chart Section */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">
+      <div style={{ 
+        background: 'rgba(255, 255, 255, 0.15)', 
+        borderRadius: '20px', 
+        padding: '32px', 
+        backdropFilter: 'blur(20px)', 
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: 0 }}>
             {selectedMetric === 'all' ? 'All Metrics' : 
              metricTypes.find(t => t.value === selectedMetric)?.label} Trend
           </h3>
           
-          <div className="flex items-center space-x-2">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button
               onClick={() => handleExport('csv')}
-              className="flex items-center space-x-2 px-3 py-1 text-sm border rounded-lg hover:bg-gray-50"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                fontSize: '14px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(255, 255, 255, 0.1)';
+              }}
             >
-              <Download className="w-4 h-4" />
+              <Download style={{ width: '16px', height: '16px' }} />
               <span>Export CSV</span>
             </button>
             <button
               onClick={() => handleExport('json')}
-              className="flex items-center space-x-2 px-3 py-1 text-sm border rounded-lg hover:bg-gray-50"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                fontSize: '14px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(255, 255, 255, 0.1)';
+              }}
             >
-              <Download className="w-4 h-4" />
+              <Download style={{ width: '16px', height: '16px' }} />
               <span>Export JSON</span>
             </button>
           </div>
         </div>
         
         {chartData.length > 0 ? (
-          <div className="h-64">
+          <div style={{ height: '256px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px', padding: '16px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.2)" />
+                <XAxis dataKey="date" stroke="rgba(255, 255, 255, 0.8)" fontSize={12} />
+                <YAxis stroke="rgba(255, 255, 255, 0.8)" fontSize={12} />
+                <Tooltip 
+                  contentStyle={{
+                    background: 'rgba(0, 0, 0, 0.8)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    color: 'white'
+                  }}
+                />
                 <Line 
                   type="monotone" 
                   dataKey="value" 
                   stroke="#3b82f6" 
-                  strokeWidth={2}
-                  dot={{ fill: '#3b82f6' }}
+                  strokeWidth={3}
+                  dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: '#1d4ed8' }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
         ) : (
-          <div className="h-64 flex items-center justify-center text-gray-500">
-            <div className="text-center">
-              <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No data to display</p>
-              <p className="text-sm">Add some health metrics to see trends</p>
+          <div style={{ height: '256px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
+              <Activity style={{ width: '48px', height: '48px', color: 'rgba(255, 255, 255, 0.5)', margin: '0 auto 16px auto' }} />
+              <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: '0 0 8px 0' }}>No data to display</p>
+              <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>Add some health metrics to see trends</p>
             </div>
           </div>
         )}
       </div>
 
       {/* Recent Metrics List */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Readings</h3>
+      <div style={{ 
+        background: 'rgba(255, 255, 255, 0.15)', 
+        borderRadius: '20px', 
+        padding: '32px', 
+        backdropFilter: 'blur(20px)', 
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 24px 0' }}>Recent Readings</h3>
         
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {filteredMetrics.slice(0, 10).map((metric) => {
             const type = metricTypes.find(t => t.value === metric.type)
             const Icon = type?.icon || Activity
             
             return (
-              <div key={metric.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg bg-${type?.color}-100`}>
-                    <Icon className={`w-4 h-4 text-${type?.color}-600`} />
+              <div key={metric.id} style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between', 
+                padding: '16px', 
+                background: 'rgba(255, 255, 255, 0.1)', 
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ 
+                    padding: '8px', 
+                    borderRadius: '12px', 
+                    background: 'rgba(59, 130, 246, 0.2)',
+                    border: '1px solid rgba(59, 130, 246, 0.3)'
+                  }}>
+                    <Icon style={{ width: '16px', height: '16px', color: '#3b82f6' }} />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{type?.label}</p>
-                    <p className="text-sm text-gray-500">
+                    <p style={{ fontWeight: '500', color: 'white', margin: '0 0 4px 0' }}>{type?.label}</p>
+                    <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>
                       {metric.timestamp.toLocaleDateString()} at {metric.timestamp.toLocaleTimeString()}
                     </p>
                   </div>
                 </div>
                 
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900">
+                <div style={{ textAlign: 'right' }}>
+                  <p style={{ fontWeight: '600', color: 'white', margin: '0 0 4px 0' }}>
                     {metric.value} {metric.unit}
                   </p>
                   {metric.verified && (
-                    <p className="text-xs text-green-600">✓ Verified</p>
+                    <p style={{ fontSize: '12px', color: '#22c55e', margin: 0 }}>✓ Verified</p>
                   )}
                 </div>
               </div>
@@ -255,12 +394,20 @@ export const HealthMetrics = () => {
         </div>
         
         {filteredMetrics.length === 0 && (
-          <div className="text-center py-8">
-            <Activity className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500">No health metrics recorded yet</p>
+          <div style={{ textAlign: 'center', padding: '32px 0' }}>
+            <Activity style={{ width: '48px', height: '48px', color: 'rgba(255, 255, 255, 0.5)', margin: '0 auto 16px auto' }} />
+            <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: '0 0 8px 0' }}>No health metrics recorded yet</p>
             <button
               onClick={() => setShowAddForm(true)}
-              className="mt-2 text-blue-600 hover:text-blue-700"
+              style={{
+                marginTop: '8px',
+                color: '#3b82f6',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                textDecoration: 'underline',
+                fontSize: '14px'
+              }}
             >
               Add your first metric
             </button>
@@ -273,20 +420,39 @@ export const HealthMetrics = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 50,
+            backdropFilter: 'blur(5px)'
+          }}
           onClick={() => setShowAddForm(false)}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-lg p-6 w-full max-w-md mx-4"
+            style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              borderRadius: '20px',
+              padding: '32px',
+              width: '100%',
+              maxWidth: '400px',
+              margin: '0 16px',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add Health Metric</h3>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 24px 0' }}>Add Health Metric</h3>
             
-            <form onSubmit={handleAddMetric} className="space-y-4">
+            <form onSubmit={handleAddMetric} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Metric Type</label>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Metric Type</label>
                 <select
                   value={formData.type}
                   onChange={(e) => {
@@ -298,10 +464,20 @@ export const HealthMetrics = () => {
                       unit: metricType?.unit || 'units' 
                     }))
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                 >
                   {metricTypes.map(type => (
-                    <option key={type.value} value={type.value}>
+                    <option key={type.value} value={type.value} style={{ background: '#1a1a1a', color: 'white' }}>
                       {type.label}
                     </option>
                   ))}
@@ -309,7 +485,7 @@ export const HealthMetrics = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>
                   Value ({formData.unit})
                 </label>
                 <input
@@ -317,23 +493,56 @@ export const HealthMetrics = () => {
                   step="0.01"
                   value={formData.value}
                   onChange={(e) => setFormData(prev => ({ ...prev, value: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                   placeholder="Enter value"
                   required
                 />
               </div>
               
-              <div className="flex space-x-3">
+              <div style={{ display: 'flex', gap: '12px' }}>
                 <button
                   type="button"
                   onClick={() => setShowAddForm(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  style={{
+                    flex: 1,
+                    padding: '12px 20px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    borderRadius: '12px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  style={{
+                    flex: 1,
+                    padding: '12px 20px',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    color: 'white',
+                    borderRadius: '12px',
+                    border: 'none',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 16px rgba(59, 130, 246, 0.3)'
+                  }}
                 >
                   Add Metric
                 </button>

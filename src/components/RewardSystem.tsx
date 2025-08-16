@@ -96,23 +96,29 @@ export const RewardSystem = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-lg p-6 text-white">
-        <div className="flex items-center justify-between">
+      <div style={{ 
+        background: 'linear-gradient(135deg, #22c55e 0%, #3b82f6 100%)', 
+        borderRadius: '20px', 
+        padding: '32px',
+        color: 'white',
+        boxShadow: '0 8px 32px rgba(34, 197, 94, 0.3)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h2 className="text-2xl font-bold">Reward System</h2>
-            <p className="opacity-90 mt-1">Earn rewards for achieving your health goals</p>
+            <h2 style={{ fontSize: '28px', fontWeight: 'bold', margin: '0 0 8px 0' }}>Reward System</h2>
+            <p style={{ opacity: 0.9, margin: 0, fontSize: '16px' }}>Earn rewards for achieving your health goals</p>
           </div>
-          <div className="text-right">
-            <p className="text-3xl font-bold">${totalRewardsEarned.toFixed(2)}</p>
-            <p className="opacity-90">Total Earned</p>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontSize: '32px', fontWeight: 'bold', margin: '0 0 4px 0' }}>${totalRewardsEarned.toFixed(2)}</p>
+            <p style={{ opacity: 0.9, margin: 0 }}>Total Earned</p>
           </div>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
         {rewardStats.map((stat, index) => {
           const Icon = stat.icon
           return (
@@ -121,15 +127,27 @@ export const RewardSystem = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-lg p-6 shadow-sm border"
+              style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                borderRadius: '16px',
+                padding: '24px',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}
             >
-              <div className="flex items-center justify-between">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p className="text-gray-600 text-sm">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                  <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px', margin: '0 0 8px 0' }}>{stat.label}</p>
+                  <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>{stat.value}</p>
                 </div>
-                <div className={`p-3 rounded-lg bg-${stat.color}-100`}>
-                  <Icon className={`w-6 h-6 text-${stat.color}-600`} />
+                <div style={{
+                  padding: '12px',
+                  borderRadius: '12px',
+                  background: 'rgba(59, 130, 246, 0.2)',
+                  border: '1px solid rgba(59, 130, 246, 0.3)'
+                }}>
+                  <Icon style={{ width: '24px', height: '24px', color: '#3b82f6' }} />
                 </div>
               </div>
             </motion.div>
@@ -137,51 +155,89 @@ export const RewardSystem = () => {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))', gap: '24px' }}>
         {/* Active Rewards */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Active Rewards</h3>
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          borderRadius: '20px',
+          padding: '32px',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: 0 }}>Active Rewards</h3>
             <button
               onClick={() => setShowFundModal(true)}
-              className="flex items-center space-x-2 px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                color: 'white',
+                borderRadius: '12px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 16px rgba(59, 130, 246, 0.3)'
+              }}
             >
-              <DollarSign className="w-4 h-4" />
+              <DollarSign style={{ width: '16px', height: '16px' }} />
               <span>Fund Goals</span>
             </button>
           </div>
           
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {goals.filter(g => g.status === 'active').map((goal) => (
-              <div key={goal.id} className="p-4 border rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-gray-900">{goal.title}</h4>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-green-600 font-bold">${goal.reward}</span>
+              <div key={goal.id} style={{
+                padding: '20px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                  <h4 style={{ fontWeight: '500', color: 'white', margin: 0 }}>{goal.title}</h4>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ color: '#22c55e', fontWeight: 'bold' }}>${goal.reward}</span>
                     <button
                       onClick={() => handleSetupAutomatedPayment(goal.id)}
-                      className="p-1 text-yellow-600 hover:text-yellow-700"
+                      style={{
+                        padding: '4px',
+                        background: 'none',
+                        border: 'none',
+                        color: '#eab308',
+                        cursor: 'pointer'
+                      }}
                       title="Setup automated payment"
                     >
-                      <Zap className="w-4 h-4" />
+                      <Zap style={{ width: '16px', height: '16px' }} />
                     </button>
                   </div>
                 </div>
                 
-                <div className="mb-2">
-                  <div className="flex justify-between text-sm text-gray-600 mb-1">
+                <div style={{ marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', color: 'rgba(255, 255, 255, 0.8)', marginBottom: '8px' }}>
                     <span>Progress</span>
                     <span>{goal.currentValue} / {goal.targetValue}</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div style={{ width: '100%', background: 'rgba(255, 255, 255, 0.2)', borderRadius: '10px', height: '8px' }}>
                     <div 
-                      className="bg-green-500 h-2 rounded-full transition-all"
-                      style={{ width: `${Math.min((goal.currentValue / goal.targetValue) * 100, 100)}%` }}
+                      style={{
+                        background: '#22c55e',
+                        height: '8px',
+                        borderRadius: '10px',
+                        transition: 'all 0.3s ease',
+                        width: `${Math.min((goal.currentValue / goal.targetValue) * 100, 100)}%`
+                      }}
                     ></div>
                   </div>
                 </div>
                 
-                <div className="flex justify-between text-xs text-gray-500">
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <span>Sponsored by: {goal.sponsor}</span>
                   <span>Ends: {goal.deadline.toLocaleDateString()}</span>
                 </div>
@@ -189,31 +245,47 @@ export const RewardSystem = () => {
             ))}
             
             {goals.filter(g => g.status === 'active').length === 0 && (
-              <p className="text-center text-gray-500 py-4">No active reward goals</p>
+              <p style={{ textAlign: 'center', color: 'rgba(255, 255, 255, 0.8)', padding: '16px 0', margin: 0 }}>No active reward goals</p>
             )}
           </div>
         </div>
 
         {/* Sponsors */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Sponsors</h3>
-            <Users className="w-5 h-5 text-gray-400" />
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          borderRadius: '20px',
+          padding: '32px',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: 0 }}>Sponsors</h3>
+            <Users style={{ width: '20px', height: '20px', color: 'rgba(255, 255, 255, 0.5)' }} />
           </div>
           
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {sponsors.map((sponsor, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">{sponsor.avatar}</span>
+              <div key={index} style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ fontSize: '24px' }}>{sponsor.avatar}</span>
                   <div>
-                    <p className="font-medium text-gray-900">{sponsor.name}</p>
-                    <p className="text-sm text-gray-600">{sponsor.active} active goals</p>
+                    <p style={{ fontWeight: '500', color: 'white', margin: '0 0 4px 0' }}>{sponsor.name}</p>
+                    <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.8)', margin: 0 }}>{sponsor.active} active goals</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-bold text-green-600">${sponsor.funded.toFixed(2)}</p>
-                  <p className="text-xs text-gray-500">Total funded</p>
+                <div style={{ textAlign: 'right' }}>
+                  <p style={{ fontWeight: 'bold', color: '#22c55e', margin: '0 0 4px 0' }}>${sponsor.funded.toFixed(2)}</p>
+                  <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>Total funded</p>
                 </div>
               </div>
             ))}
@@ -222,44 +294,78 @@ export const RewardSystem = () => {
       </div>
 
       {/* X402 Automated Payments */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <Zap className="w-6 h-6 text-yellow-500" />
+      <div style={{
+        background: 'rgba(255, 255, 255, 0.15)',
+        borderRadius: '20px',
+        padding: '32px',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Zap style={{ width: '24px', height: '24px', color: '#eab308' }} />
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">X402 Automated Payments</h3>
-              <p className="text-gray-600">Set up automatic reward distribution when goals are completed</p>
+              <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 4px 0' }}>X402 Automated Payments</h3>
+              <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0, fontSize: '14px' }}>Set up automatic reward distribution when goals are completed</p>
             </div>
           </div>
           <a
             href="https://www.x402.org/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              color: '#3b82f6',
+              fontSize: '14px',
+              textDecoration: 'none'
+            }}
           >
             <span>Learn more</span>
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink style={{ width: '16px', height: '16px' }} />
           </a>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="p-3 bg-yellow-50 rounded-lg">
-            <p className="text-sm font-medium text-yellow-800">Automated Payments</p>
-            <p className="text-2xl font-bold text-yellow-600">2</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+          <div style={{
+            padding: '16px',
+            background: 'rgba(234, 179, 8, 0.2)',
+            borderRadius: '12px',
+            border: '1px solid rgba(234, 179, 8, 0.3)'
+          }}>
+            <p style={{ fontSize: '14px', fontWeight: '500', color: '#eab308', margin: '0 0 8px 0' }}>Automated Payments</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#eab308', margin: 0 }}>2</p>
           </div>
-          <div className="p-3 bg-green-50 rounded-lg">
-            <p className="text-sm font-medium text-green-800">Successful Payouts</p>
-            <p className="text-2xl font-bold text-green-600">5</p>
+          <div style={{
+            padding: '16px',
+            background: 'rgba(34, 197, 94, 0.2)',
+            borderRadius: '12px',
+            border: '1px solid rgba(34, 197, 94, 0.3)'
+          }}>
+            <p style={{ fontSize: '14px', fontWeight: '500', color: '#22c55e', margin: '0 0 8px 0' }}>Successful Payouts</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#22c55e', margin: 0 }}>5</p>
           </div>
-          <div className="p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm font-medium text-blue-800">Total Automated</p>
-            <p className="text-2xl font-bold text-blue-600">$7.50</p>
+          <div style={{
+            padding: '16px',
+            background: 'rgba(59, 130, 246, 0.2)',
+            borderRadius: '12px',
+            border: '1px solid rgba(59, 130, 246, 0.3)'
+          }}>
+            <p style={{ fontSize: '14px', fontWeight: '500', color: '#3b82f6', margin: '0 0 8px 0' }}>Total Automated</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#3b82f6', margin: 0 }}>$7.50</p>
           </div>
         </div>
         
         {!isConnected && (
-          <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-sm text-yellow-800">
+          <div style={{
+            padding: '16px',
+            background: 'rgba(234, 179, 8, 0.2)',
+            border: '1px solid rgba(234, 179, 8, 0.3)',
+            borderRadius: '12px'
+          }}>
+            <p style={{ fontSize: '14px', color: '#eab308', margin: 0 }}>
               Connect your Coinbase wallet to enable automated payments with x402 protocol
             </p>
           </div>
@@ -267,35 +373,60 @@ export const RewardSystem = () => {
       </div>
 
       {/* Recent Transactions */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
+      <div style={{
+        background: 'rgba(255, 255, 255, 0.15)',
+        borderRadius: '20px',
+        padding: '32px',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 24px 0' }}>Recent Transactions</h3>
         
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {recentTransactions.map((tx, index) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <div className={`w-3 h-3 rounded-full ${
-                  tx.type === 'reward' ? 'bg-green-500' :
-                  tx.type === 'funding' ? 'bg-blue-500' :
-                  'bg-yellow-500'
-                }`}></div>
+            <div key={index} style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '12px',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  background: tx.type === 'reward' ? '#22c55e' :
+                             tx.type === 'funding' ? '#3b82f6' :
+                             '#eab308'
+                }}></div>
                 <div>
-                  <p className="font-medium text-gray-900">{tx.description}</p>
-                  <p className="text-sm text-gray-500">{tx.timestamp}</p>
+                  <p style={{ fontWeight: '500', color: 'white', margin: '0 0 4px 0' }}>{tx.description}</p>
+                  <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>{tx.timestamp}</p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className={`font-bold ${
-                  tx.type === 'reward' ? 'text-green-600' :
-                  tx.type === 'funding' ? 'text-blue-600' :
-                  'text-yellow-600'
-                }`}>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{
+                  fontWeight: 'bold',
+                  color: tx.type === 'reward' ? '#22c55e' :
+                         tx.type === 'funding' ? '#3b82f6' :
+                         '#eab308',
+                  margin: '0 0 4px 0'
+                }}>
                   {tx.type === 'reward' ? '+' : tx.type === 'funding' ? '+' : ''}${tx.amount.toFixed(2)}
                 </p>
-                <span className={`px-2 py-1 text-xs rounded-full ${
-                  tx.status === 'completed' ? 'bg-green-100 text-green-800' :
-                  'bg-yellow-100 text-yellow-800'
-                }`}>
+                <span style={{
+                  padding: '4px 8px',
+                  fontSize: '12px',
+                  borderRadius: '20px',
+                  background: tx.status === 'completed' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(234, 179, 8, 0.2)',
+                  color: tx.status === 'completed' ? '#22c55e' : '#eab308',
+                  border: `1px solid ${tx.status === 'completed' ? '#22c55e' : '#eab308'}`
+                }}>
                   {tx.status}
                 </span>
               </div>
@@ -309,50 +440,107 @@ export const RewardSystem = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 50,
+            backdropFilter: 'blur(5px)'
+          }}
           onClick={() => setShowFundModal(false)}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-lg p-6 w-full max-w-md mx-4"
+            style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              borderRadius: '20px',
+              padding: '32px',
+              width: '100%',
+              maxWidth: '400px',
+              margin: '0 16px',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Fund Health Goals</h3>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 24px 0' }}>Fund Health Goals</h3>
             
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Amount ($)</label>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Amount ($)</label>
                 <input
                   type="number"
                   step="0.01"
                   value={fundAmount}
                   onChange={(e) => setFundAmount(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                   placeholder="Enter amount to fund"
                 />
               </div>
               
               <div>
-                <p className="text-sm text-gray-600 mb-2">This will fund all active goals proportionally</p>
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-blue-800">
+                <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.8)', marginBottom: '8px', margin: '0 0 8px 0' }}>This will fund all active goals proportionally</p>
+                <div style={{
+                  padding: '12px',
+                  background: 'rgba(59, 130, 246, 0.2)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(59, 130, 246, 0.3)'
+                }}>
+                  <p style={{ fontSize: '14px', color: '#3b82f6', margin: 0 }}>
                     Current wallet balance: ${balance.toFixed(2)}
                   </p>
                 </div>
               </div>
               
-              <div className="flex space-x-3">
+              <div style={{ display: 'flex', gap: '12px' }}>
                 <button
                   onClick={() => setShowFundModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  style={{
+                    flex: 1,
+                    padding: '12px 20px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    borderRadius: '12px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleFundGoals}
                   disabled={!fundAmount || !isConnected}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  style={{
+                    flex: 1,
+                    padding: '12px 20px',
+                    background: !fundAmount || !isConnected ? 'rgba(59, 130, 246, 0.5)' : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    color: 'white',
+                    borderRadius: '12px',
+                    border: 'none',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: !fundAmount || !isConnected ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 16px rgba(59, 130, 246, 0.3)'
+                  }}
                 >
                   Fund Goals
                 </button>

@@ -139,88 +139,153 @@ export const GoalCreator = () => {
   const completedGoals = goals.filter(g => g.status === 'completed')
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Header */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border">
-        <div className="flex items-center justify-between">
+      <div style={{ 
+        background: 'rgba(255, 255, 255, 0.15)', 
+        borderRadius: '20px', 
+        padding: '32px', 
+        backdropFilter: 'blur(20px)', 
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Health Goals</h2>
-            <p className="text-gray-600 mt-1">Set goals, track progress, and earn rewards for healthy behaviors</p>
+            <h2 style={{ fontSize: '28px', fontWeight: 'bold', color: 'white', margin: '0 0 8px 0' }}>Health Goals</h2>
+            <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '16px', margin: 0 }}>Set goals, track progress, and earn rewards for healthy behaviors</p>
           </div>
-          <div className="flex items-center space-x-4 text-sm">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-blue-600">{activeGoals.length}</p>
-              <p className="text-gray-600">Active</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#3b82f6', margin: '0 0 4px 0' }}>{activeGoals.length}</p>
+              <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '14px', margin: 0 }}>Active</p>
             </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-green-600">{completedGoals.length}</p>
-              <p className="text-gray-600">Completed</p>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#22c55e', margin: '0 0 4px 0' }}>{completedGoals.length}</p>
+              <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '14px', margin: 0 }}>Completed</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))', gap: '24px' }}>
         {/* Goal Creation Form */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Create New Goal</h3>
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.15)', 
+          borderRadius: '20px', 
+          padding: '32px', 
+          backdropFilter: 'blur(20px)', 
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 24px 0' }}>Create New Goal</h3>
           
           {/* Predefined Goals */}
-          <div className="mb-6">
-            <p className="text-sm text-gray-600 mb-3">Quick start with predefined goals:</p>
-            <div className="space-y-2">
+          <div style={{ marginBottom: '32px' }}>
+            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.8)', marginBottom: '16px' }}>Quick start with predefined goals:</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {predefinedGoals.map((goal, index) => (
                 <button
                   key={index}
                   onClick={() => handlePredefinedGoal(goal)}
-                  className="w-full text-left p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors"
+                  style={{
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.background = 'rgba(255, 255, 255, 0.2)';
+                    (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.background = 'rgba(255, 255, 255, 0.1)';
+                    (e.target as HTMLElement).style.transform = 'translateY(0)';
+                  }}
                 >
-                  <div className="flex justify-between items-center">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <p className="font-medium text-gray-900">{goal.title}</p>
-                      <p className="text-sm text-gray-600">{goal.description}</p>
+                      <p style={{ fontWeight: '500', color: 'white', margin: '0 0 4px 0' }}>{goal.title}</p>
+                      <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.8)', margin: 0 }}>{goal.description}</p>
                     </div>
-                    <span className="text-green-600 font-medium">${goal.reward}</span>
+                    <span style={{ color: '#22c55e', fontWeight: '600' }}>${goal.reward}</span>
                   </div>
                 </button>
               ))}
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Goal Title</label>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Goal Title</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  color: 'white',
+                  fontSize: '14px',
+                  outline: 'none'
+                }}
                 placeholder="e.g., Improve Sleep Quality"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Description</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  color: 'white',
+                  fontSize: '14px',
+                  outline: 'none',
+                  resize: 'vertical',
+                  minHeight: '80px'
+                }}
                 rows={3}
                 placeholder="Describe your goal and what you want to achieve"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Health Data Type</label>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Health Data Type</label>
                 <select
                   value={formData.healthDataType}
                   onChange={(e) => handleInputChange('healthDataType', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                 >
                   {healthDataTypes.map(type => (
-                    <option key={type.value} value={type.value}>
+                    <option key={type.value} value={type.value} style={{ background: '#1a1a1a', color: 'white' }}>
                       {type.label} ({type.unit})
                     </option>
                   ))}
@@ -228,41 +293,71 @@ export const GoalCreator = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Target Value</label>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Target Value</label>
                 <input
                   type="number"
                   value={formData.targetValue}
                   onChange={(e) => handleInputChange('targetValue', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                   placeholder="Target to achieve"
                   required
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Reward Amount ($)</label>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Reward Amount ($)</label>
                 <input
                   type="number"
                   step="0.01"
                   value={formData.reward}
                   onChange={(e) => handleInputChange('reward', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                   placeholder="1.00"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Sponsor</label>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Sponsor</label>
                 <select
                   value={formData.sponsor}
                   onChange={(e) => handleInputChange('sponsor', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    color: 'white',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
                 >
                   {sponsors.map(sponsor => (
-                    <option key={sponsor.value} value={sponsor.value}>
+                    <option key={sponsor.value} value={sponsor.value} style={{ background: '#1a1a1a', color: 'white' }}>
                       {sponsor.label}
                     </option>
                   ))}
@@ -271,12 +366,22 @@ export const GoalCreator = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Deadline (Optional)</label>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '8px' }}>Deadline (Optional)</label>
               <input
                 type="date"
                 value={formData.deadline}
                 onChange={(e) => handleInputChange('deadline', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  color: 'white',
+                  fontSize: '14px',
+                  outline: 'none'
+                }}
                 min={new Date().toISOString().split('T')[0]}
               />
             </div>
@@ -286,7 +391,15 @@ export const GoalCreator = () => {
               <button
                 type="button"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                style={{
+                  color: '#3b82f6',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textDecoration: 'underline'
+                }}
               >
                 {showAdvanced ? 'Hide' : 'Show'} Advanced Options
               </button>
@@ -295,17 +408,24 @@ export const GoalCreator = () => {
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
-                  className="mt-4 p-4 bg-gray-50 rounded-lg"
+                  style={{
+                    marginTop: '16px',
+                    padding: '16px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    borderRadius: '12px',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
                 >
-                  <div className="flex items-center space-x-2 mb-2">
-                    <Zap className="w-4 h-4 text-yellow-500" />
-                    <span className="text-sm font-medium">X402 Automated Payments</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <Zap style={{ width: '16px', height: '16px', color: '#eab308' }} />
+                    <span style={{ fontSize: '14px', fontWeight: '500', color: 'white' }}>X402 Automated Payments</span>
                   </div>
-                  <p className="text-xs text-gray-600 mb-3">
+                  <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.8)', marginBottom: '12px', margin: 0 }}>
                     Enable automatic reward distribution when goals are completed
                   </p>
                   {!isConnected && (
-                    <p className="text-xs text-red-600">
+                    <p style={{ fontSize: '12px', color: '#ef4444', margin: 0 }}>
                       Connect your Coinbase wallet to enable automated payments
                     </p>
                   )}
@@ -316,7 +436,31 @@ export const GoalCreator = () => {
             <button
               type="submit"
               disabled={isCreating || !formData.title || !formData.targetValue || !formData.reward}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              style={{
+                width: '100%',
+                background: isCreating || !formData.title || !formData.targetValue || !formData.reward 
+                  ? 'rgba(59, 130, 246, 0.5)'
+                  : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                color: 'white',
+                padding: '14px 24px',
+                borderRadius: '12px',
+                border: 'none',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: isCreating || !formData.title || !formData.targetValue || !formData.reward ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 16px rgba(59, 130, 246, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                if (!isCreating && formData.title && formData.targetValue && formData.reward) {
+                  (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.target as HTMLElement).style.boxShadow = '0 8px 24px rgba(59, 130, 246, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.transform = 'translateY(0)';
+                (e.target as HTMLElement).style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.3)';
+              }}
             >
               {isCreating ? 'Creating Goal...' : 'Create Goal'}
             </button>
@@ -324,57 +468,81 @@ export const GoalCreator = () => {
         </div>
 
         {/* Active Goals List */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Goals</h3>
+        <div style={{ 
+          background: 'rgba(255, 255, 255, 0.15)', 
+          borderRadius: '20px', 
+          padding: '32px', 
+          backdropFilter: 'blur(20px)', 
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: '0 0 24px 0' }}>Your Goals</h3>
           
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {goals.length > 0 ? (
               goals.map((goal) => (
                 <motion.div
                   key={goal.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`p-4 border-l-4 rounded-lg ${
-                    goal.status === 'completed' ? 'border-green-500 bg-green-50' :
-                    goal.status === 'active' ? 'border-blue-500 bg-blue-50' :
-                    'border-gray-300 bg-gray-50'
-                  }`}
+                  style={{
+                    padding: '20px',
+                    borderLeft: `4px solid ${
+                      goal.status === 'completed' ? '#22c55e' :
+                      goal.status === 'active' ? '#3b82f6' :
+                      'rgba(255, 255, 255, 0.5)'
+                    }`,
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-medium text-gray-900">{goal.title}</h4>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-green-600 font-medium">${goal.reward}</span>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        goal.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        goal.status === 'active' ? 'bg-blue-100 text-blue-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                    <h4 style={{ fontWeight: '500', color: 'white', margin: 0 }}>{goal.title}</h4>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ color: '#22c55e', fontWeight: '600' }}>${goal.reward}</span>
+                      <span style={{
+                        padding: '4px 12px',
+                        fontSize: '12px',
+                        borderRadius: '20px',
+                        background: goal.status === 'completed' ? 'rgba(34, 197, 94, 0.2)' :
+                                   goal.status === 'active' ? 'rgba(59, 130, 246, 0.2)' :
+                                   'rgba(255, 255, 255, 0.2)',
+                        color: goal.status === 'completed' ? '#22c55e' :
+                               goal.status === 'active' ? '#3b82f6' :
+                               'rgba(255, 255, 255, 0.8)',
+                        border: `1px solid ${goal.status === 'completed' ? '#22c55e' :
+                                             goal.status === 'active' ? '#3b82f6' :
+                                             'rgba(255, 255, 255, 0.3)'}`
+                      }}>
                         {goal.status}
                       </span>
                     </div>
                   </div>
                   
-                  <p className="text-sm text-gray-600 mb-3">{goal.description}</p>
+                  <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.8)', marginBottom: '16px', margin: '0 0 16px 0' }}>{goal.description}</p>
                   
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Progress</span>
-                      <span className="font-medium">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
+                      <span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Progress</span>
+                      <span style={{ fontWeight: '500', color: 'white' }}>
                         {goal.currentValue} / {goal.targetValue}
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div style={{ width: '100%', background: 'rgba(255, 255, 255, 0.2)', borderRadius: '10px', height: '8px' }}>
                       <div 
-                        className={`h-2 rounded-full transition-all ${
-                          goal.status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
-                        }`}
-                        style={{ 
-                          width: `${Math.min((goal.currentValue / goal.targetValue) * 100, 100)}%` 
+                        style={{
+                          height: '8px',
+                          borderRadius: '10px',
+                          background: goal.status === 'completed' ? '#22c55e' : 'linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%)',
+                          width: `${Math.min((goal.currentValue / goal.targetValue) * 100, 100)}%`,
+                          transition: 'all 0.3s ease'
                         }}
                       ></div>
                     </div>
                     
-                    <div className="flex justify-between text-xs text-gray-500">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                       <span>Deadline: {goal.deadline.toLocaleDateString()}</span>
                       <span>Sponsored by: {goal.sponsor}</span>
                     </div>
@@ -382,9 +550,9 @@ export const GoalCreator = () => {
                 </motion.div>
               ))
             ) : (
-              <div className="text-center py-8">
-                <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">No goals yet. Create your first goal to get started!</p>
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <Target style={{ width: '48px', height: '48px', color: 'rgba(255, 255, 255, 0.5)', margin: '0 auto 16px auto' }} />
+                <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0 }}>No goals yet. Create your first goal to get started!</p>
               </div>
             )}
           </div>
