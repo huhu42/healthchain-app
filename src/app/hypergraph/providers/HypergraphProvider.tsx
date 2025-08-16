@@ -1,18 +1,24 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { HypergraphProvider as BaseHypergraphProvider } from '@graphprotocol/hypergraph-react';
-import hypergraphClient from '../config/client';
+import { HypergraphAppProvider } from '@graphprotocol/hypergraph-react';
 
 interface HypergraphProviderProps {
   children: ReactNode;
 }
 
 export function HypergraphProvider({ children }: HypergraphProviderProps) {
+  // Provide an empty mapping for now to avoid ID validation errors
+  const emptyMapping = {};
+  
   return (
-    <BaseHypergraphProvider client={hypergraphClient}>
+    <HypergraphAppProvider
+      appId="healthchain-app"
+      mapping={emptyMapping as any}
+      chainId={1}
+    >
       {children}
-    </BaseHypergraphProvider>
+    </HypergraphAppProvider>
   );
 }
 

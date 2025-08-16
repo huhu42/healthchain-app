@@ -1,7 +1,7 @@
-import { createHypergraphClient } from '@graphprotocol/hypergraph-react';
+import { createWalletClient } from '@graphprotocol/hypergraph-react';
 
 // Hypergraph client configuration
-export const hypergraphClient = createHypergraphClient({
+export const hypergraphClient = createWalletClient({
   // Your Hypergraph endpoint (you'll get this from Hypergraph)
   endpoint: process.env.NEXT_PUBLIC_HYPERGRAPH_ENDPOINT || 'https://hypergraph.graphprotocol.com',
   

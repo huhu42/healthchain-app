@@ -22,6 +22,8 @@
     "@coinbase/wallet-sdk": "^4.3.7",
     "@graphprotocol/graph-cli": "^0.69.0",
     "@graphprotocol/graph-ts": "^0.35.0",
+    "@graphprotocol/hypergraph": "^0.6.1",
+    "@graphprotocol/hypergraph-react": "^0.6.1",
     "@onflow/fcl": "^1.12.0",
     "@onflow/flow-js-testing": "^0.6.0",
     "@onflow/types": "^1.2.0",

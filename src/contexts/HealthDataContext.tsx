@@ -224,31 +224,35 @@ export const HealthDataProvider: React.FC<HealthDataProviderProps> = ({ children
   const syncWithWearable = async () => {
     setIsLoading(true)
     try {
-      // Mock wearable sync - in production this would connect to health APIs
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Import WHOOP API dynamically to avoid SSR issues
+      const { whoopApi } = await import('../lib/whoopApi')
       
-      const mockSyncData: HealthMetric[] = [
-        {
-          id: Date.now().toString(),
-          type: 'heart_rate',
-          value: 68 + Math.random() * 10,
-          timestamp: new Date(),
-          unit: 'bpm',
-          verified: true
-        },
-        {
-          id: (Date.now() + 1).toString(),
-          type: 'steps',
-          value: Math.floor(Math.random() * 5000) + 5000,
-          timestamp: new Date(),
-          unit: 'steps',
-          verified: true
-        }
-      ]
+      if (!whoopApi.isAuthenticated()) {
+        // Redirect to WHOOP OAuth
+        const authUrl = whoopApi.getAuthUrl()
+        window.location.href = authUrl
+        return
+      }
       
-      setHealthMetrics(prev => [...mockSyncData, ...prev])
+      // Fetch real data from WHOOP
+      const whoopData = await whoopApi.getAllHealthData(7)
+      
+      // Convert WHOOP data to HealthMetric format
+      const syncData: HealthMetric[] = whoopData.map(data => ({
+        id: data.id,
+        type: data.type === 'recovery' ? 'heart_rate' : data.type === 'strain' ? 'activity' : data.type,
+        value: data.value,
+        timestamp: new Date(data.timestamp),
+        unit: data.unit,
+        verified: data.verified,
+        source: data.source,
+        metadata: data.metadata
+      }))
+      
+      setHealthMetrics(prev => [...syncData, ...prev])
     } catch (error) {
-      throw new Error('Failed to sync with wearable')
+      console.error('WHOOP sync error:', error)
+      throw new Error('Failed to sync with WHOOP')
     } finally {
       setIsLoading(false)
     }

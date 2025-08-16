@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FlowProvider } from '../contexts/FlowContext'
 import { HealthDataProvider } from '../contexts/HealthDataContext'
 import { Web3Provider } from '../contexts/Web3Context'
+import { HypergraphProvider } from './hypergraph/providers/HypergraphProvider'
 import { useState } from 'react'
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -21,7 +22,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <Web3Provider>
         <FlowProvider>
           <HealthDataProvider>
-            {children}
+            <HypergraphProvider>
+              {children}
+            </HypergraphProvider>
           </HealthDataProvider>
         </FlowProvider>
       </Web3Provider>
