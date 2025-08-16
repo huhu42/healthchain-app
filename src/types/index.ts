@@ -10,7 +10,7 @@ export interface HealthMetric {
   metadata?: Record<string, any>
 }
 
-export type HealthDataType = 'sleep' | 'steps' | 'heart_rate' | 'blood_pressure' | 'weight' | 'custom'
+export type HealthDataType = 'sleep' | 'steps' | 'heart_rate' | 'blood_pressure' | 'weight' | 'custom' | 'recovery' | 'strain' | 'activity'
 
 // Goal Management Types
 export interface Goal {

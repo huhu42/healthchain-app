@@ -42,7 +42,7 @@ export const DashboardOverview = () => {
     },
     {
       label: 'Wallet Balance',
-      value: `$${balance.toFixed(2)}`,
+      value: `${typeof balance === 'string' ? balance : balance.toFixed(2)} ETH`,
       icon: DollarSign,
       color: 'text-yellow-600',
       bgColor: 'bg-yellow-100'
