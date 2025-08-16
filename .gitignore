@@ -14,6 +14,7 @@ yarn-error.log*
 # Build outputs
 .next/
 .next
+.next/cache/*
 out/
 build/
 dist/
@@ -192,21 +193,26 @@ test-report.xml
 subgraph/generated/
 subgraph/build/
 
-# Next.js specific generated files
+# Next.js specific generated files (covered by .next/* above, but being explicit)
 .next/cache/
 .next/server/
 .next/static/
 .next/trace
 .next/types/
 .next/webpack/
+.next/development/
+.next/production/
 .next/build-manifest.json
 .next/prerender-manifest.json
 .next/routes-manifest.json
 .next/server-manifest.json
+.next/app-build-manifest.json
+.next/app-paths-manifest.json
 .next/static/chunks/
 .next/static/css/
 .next/static/media/
 .next/static/webpack/
+.next/trace.next
 
 # Generated contract artifacts
 contracts/build/
