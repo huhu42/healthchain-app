@@ -1,0 +1,60 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HealthRewards
+    network: flow-testnet
+    source:
+      address: "0x1234567890123456789012345678901234567890" # Contract address on Flow
+      abi: HealthRewards
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Goal
+        - User
+        - HealthData
+        - Reward
+        - PrivacySetting
+      abis:
+        - name: HealthRewards
+          file: ./abis/HealthRewards.json
+      eventHandlers:
+        - event: GoalCompleted(indexed address,uint256,uint256)
+          handler: handleGoalCompleted
+        - event: RewardClaimed(indexed address,uint256)
+          handler: handleRewardClaimed
+        - event: FundsDeposited(indexed address,uint256)
+          handler: handleFundsDeposited
+        - event: HealthDataShared(indexed address,indexed address,string)
+          handler: handleHealthDataShared
+        - event: PrivacySettingsUpdated(indexed address,string,bool)
+          handler: handlePrivacySettingsUpdated
+        - event: PublicGraphPublished(indexed address,string)
+          handler: handlePublicGraphPublished
+      file: ./src/mapping.ts
+templates:
+  - kind: ethereum/contract
+    name: PrivacyController
+    network: flow-testnet
+    source:
+      abi: PrivacyController
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PrivacySetting
+        - AccessLog
+      abis:
+        - name: PrivacyController
+          file: ./abis/PrivacyController.json
+      eventHandlers:
+        - event: HealthDataShared(indexed address,indexed address,string)
+          handler: handleHealthDataShared
+        - event: PrivacySettingsUpdated(indexed address,string,bool)
+          handler: handlePrivacySettingsUpdated
+      file: ./src/privacy-mapping.ts

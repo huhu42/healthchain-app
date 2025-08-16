@@ -1,0 +1,193 @@
+type User @entity {
+  id: ID!
+  address: Bytes!
+  goals: [Goal!]! @derivedFrom(field: "user")
+  healthData: [HealthData!]! @derivedFrom(field: "user")
+  rewards: [Reward!]! @derivedFrom(field: "user")
+  privacySettings: [PrivacySetting!]! @derivedFrom(field: "user")
+  totalRewardsEarned: BigDecimal!
+  goalsCompleted: BigInt!
+  goalsActive: BigInt!
+  lastActivityAt: BigInt!
+  createdAt: BigInt!
+}
+
+type Goal @entity {
+  id: ID!
+  user: User!
+  title: String!
+  description: String!
+  targetValue: BigDecimal!
+  currentValue: BigDecimal!
+  reward: BigDecimal!
+  deadline: BigInt!
+  sponsor: String!
+  status: GoalStatus!
+  healthDataType: String!
+  conditions: [String!]!
+  completedAt: BigInt
+  createdAt: BigInt!
+  updatedAt: BigInt!
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  FAILED
+  PENDING
+}
+
+type HealthData @entity {
+  id: ID!
+  user: User!
+  type: HealthDataType!
+  value: BigDecimal!
+  unit: String!
+  timestamp: BigInt!
+  verified: Boolean!
+  source: String!
+  goalId: String
+  createdAt: BigInt!
+}
+
+enum HealthDataType {
+  SLEEP
+  STEPS
+  HEART_RATE
+  BLOOD_PRESSURE
+  WEIGHT
+  CUSTOM
+}
+
+type Reward @entity {
+  id: ID!
+  user: User!
+  goal: Goal!
+  amount: BigDecimal!
+  transactionHash: Bytes!
+  timestamp: BigInt!
+  sponsor: String!
+  claimed: Boolean!
+  claimedAt: BigInt
+}
+
+type PrivacySetting @entity {
+  id: ID!
+  user: User!
+  dataType: HealthDataType!
+  shareLevel: ShareLevel!
+  authorizedUsers: [Bytes!]!
+  allowPublicGraph: Boolean!
+  updatedAt: BigInt!
+}
+
+enum ShareLevel {
+  PRIVATE
+  FAMILY
+  MEDICAL
+  PUBLIC
+}
+
+type AccessLog @entity {
+  id: ID!
+  user: User!
+  requester: Bytes!
+  dataType: HealthDataType!
+  purpose: String!
+  granted: Boolean!
+  timestamp: BigInt!
+}
+
+type PublicGraph @entity {
+  id: ID!
+  user: User!
+  graphId: String!
+  dataTypes: [HealthDataType!]!
+  isPublic: Boolean!
+  publishedAt: BigInt!
+  lastUpdated: BigInt!
+}
+
+type Sponsor @entity {
+  id: ID!
+  address: Bytes!
+  name: String!
+  totalFunded: BigDecimal!
+  activeGoals: BigInt!
+  completedGoals: BigInt!
+  users: [User!]!
+  createdAt: BigInt!
+}
+
+type DailyStats @entity {
+  id: ID! # format: "YYYY-MM-DD"
+  date: String!
+  totalUsers: BigInt!
+  newUsers: BigInt!
+  goalsCreated: BigInt!
+  goalsCompleted: BigInt!
+  totalRewards: BigDecimal!
+  healthDataEntries: BigInt!
+  publicGraphsPublished: BigInt!
+}
+
+type GlobalStats @entity {
+  id: ID! # "global"
+  totalUsers: BigInt!
+  totalGoals: BigInt!
+  totalRewards: BigDecimal!
+  totalHealthDataEntries: BigInt!
+  totalPublicGraphs: BigInt!
+  lastUpdated: BigInt!
+}
+
+# Health data aggregations for analytics
+type UserHealthStats @entity {
+  id: ID! # user address
+  user: User!
+  avgSleepHours: BigDecimal!
+  avgDailySteps: BigInt!
+  avgHeartRate: BigDecimal!
+  lastBloodPressure: BigDecimal!
+  currentWeight: BigDecimal!
+  healthScore: BigDecimal! # calculated score based on all metrics
+  lastUpdated: BigInt!
+}
+
+# Community features
+type HealthChallenge @entity {
+  id: ID!
+  title: String!
+  description: String!
+  targetMetric: HealthDataType!
+  targetValue: BigDecimal!
+  reward: BigDecimal!
+  startDate: BigInt!
+  endDate: BigInt!
+  participants: [User!]!
+  isActive: Boolean!
+  createdBy: Bytes!
+  createdAt: BigInt!
+}
+
+type ChallengeParticipation @entity {
+  id: ID!
+  challenge: HealthChallenge!
+  user: User!
+  currentValue: BigDecimal!
+  completed: Boolean!
+  completedAt: BigInt
+  joinedAt: BigInt!
+}
+
+# Integration with x402 payments
+type AutomatedPayment @entity {
+  id: ID!
+  goal: Goal!
+  paymentId: String!
+  amount: BigDecimal!
+  isActive: Boolean!
+  lastTriggered: BigInt
+  totalPayouts: BigInt!
+  createdAt: BigInt!
+}
