@@ -378,18 +378,4 @@ export interface HypergraphMutationResult {
   timestamp: number;
 }
 
-// ============================================================================
-// EXPORT ALL TYPES
-// ============================================================================
 
-export {
-  HealthDataPoint,
-  UserProfile,
-  HealthGoal,
-  HealthReward,
-  PrivacySetting,
-  AccessLog,
-  HealthMetrics,
-  HealthChallenge,
-  HealthInsight,
-};
