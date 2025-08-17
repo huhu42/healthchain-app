@@ -1,5 +1,5 @@
 {
-  "name": "healthchain-app",
+  "name": "gamifiedhealth-app",
   "version": "1.0.0",
   "description": "A comprehensive Web3 health tracking application with Flow blockchain rewards and hypergraph data storage",
   "main": "index.js",

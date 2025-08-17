@@ -6,7 +6,7 @@ import * as types from '@onflow/types'
 
 // Configure FCL
 fcl.config({
-  'app.detail.title': 'HealthChain',
+  'app.detail.title': 'GamifiedHealth',
   'app.detail.icon': 'https://fcl-discovery.onflow.org/images/blocto.png',
   'accessNode.api': process.env.NODE_ENV === 'production' 
     ? 'https://rest-testnet.onflow.org'

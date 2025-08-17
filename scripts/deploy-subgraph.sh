@@ -5,7 +5,7 @@
 
 set -e
 
-echo "📊 Deploying HealthChain subgraph to The Graph Protocol..."
+echo "📊 Deploying GamifiedHealth subgraph to The Graph Protocol..."
 
 # Check if Graph CLI is installed
 if ! command -v graph &> /dev/null; then

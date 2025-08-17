@@ -16,6 +16,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: TrendingUp, path: '/dashboard' },
     { id: 'goals', label: 'Goals', icon: Target, path: '/goals' },
+    { id: 'sleep-workflow', label: 'Sleep Workflow', icon: Heart, path: '/sleep-workflow-demo' },
     { id: 'health', label: 'Health Data', icon: Heart, path: '/health' },
     { id: 'rewards', label: 'Rewards', icon: Globe, path: '/rewards' },
     { id: 'privacy', label: 'Privacy', icon: Shield, path: '/privacy' },
@@ -38,16 +39,31 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div style={{ width: '48px', height: '48px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)' }}>
                 <Heart style={{ width: '24px', height: '24px', color: 'white' }} />
               </div>
-              <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1a1a1a', margin: 0 }}>HealthChain ⚡</h1>
+              <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1a1a1a', margin: 0 }}>GamifiedHealth ⚡</h1>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '24px', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
-                <div style={{ width: '8px', height: '8px', background: '#22c55e', borderRadius: '50%', animation: 'pulse 2s infinite' }}></div>
-                <span style={{ fontSize: '14px', color: '#15803d', fontWeight: '500' }}>Flow Connected</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}>
+                <div style={{ 
+                  width: '8px', 
+                  height: '8px', 
+                  borderRadius: '50%', 
+                  background: '#ef4444',
+                  animation: 'pulse 2s infinite'
+                }}></div>
+                <span style={{ fontSize: '14px', color: 'white' }}>Connect WHOOP</span>
               </div>
-              <WhoopSyncButton />
-              <ConnectButton />
+              
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}>
+                <div style={{ 
+                  width: '8px', 
+                  height: '8px', 
+                  borderRadius: '50%', 
+                  background: '#ef4444',
+                  animation: 'pulse 2s infinite'
+                }}></div>
+                <span style={{ fontSize: '14px', color: 'white' }}>Connect Coinbase</span>
+              </div>
             </div>
           </div>
         </div>

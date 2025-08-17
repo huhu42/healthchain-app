@@ -18,32 +18,13 @@ export default function PrivacyPage() {
         padding: '40px',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
       }}>
-        <h1 style={{
-          fontSize: '32px',
-          fontWeight: '700',
-          color: '#1f2937',
-          margin: '0 0 24px 0',
-          textAlign: 'center'
-        }}>
-          Privacy Policy
+        <h1 style={{ fontSize: '32px', fontWeight: 'bold', color: 'white', margin: '0 0 24px 0', textAlign: 'center' }}>
+          GamifiedHealth Privacy Policy
         </h1>
         
-        <div style={{
-          fontSize: '16px',
-          lineHeight: '1.6',
-          color: '#374151'
-        }}>
-          <h2 style={{
-            fontSize: '24px',
-            fontWeight: '600',
-            color: '#1f2937',
-            margin: '32px 0 16px 0'
-          }}>
-            HealthChain Privacy Policy
-          </h2>
-          
-          <p style={{ margin: '0 0 16px 0' }}>
-            This privacy policy describes how HealthChain ("we", "our", or "us") collects, uses, and protects your health data when you use our application.
+        <div style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '16px', lineHeight: '1.6' }}>
+          <p style={{ marginBottom: '16px' }}>
+            This privacy policy describes how GamifiedHealth ("we", "our", or "us") collects, uses, and protects your health data when you use our application.
           </p>
 
           <h3 style={{
@@ -175,17 +156,10 @@ export default function PrivacyPage() {
           </h3>
           
           <p style={{ margin: '0 0 16px 0' }}>
-            If you have questions about this privacy policy or how we handle your data, please contact us at:
-          </p>
-          
-          <p style={{
-            margin: '0 0 16px 0',
-            padding: '16px',
-            background: '#f3f4f6',
-            borderRadius: '8px',
-            fontFamily: 'monospace'
-          }}>
-            privacy@healthchain.app
+            If you have any questions about this privacy policy, please contact us at{' '}
+            <a href="mailto:privacy@gamifiedhealth.app" style={{ color: '#3b82f6', textDecoration: 'underline' }}>
+              privacy@gamifiedhealth.app
+            </a>
           </p>
 
           <h3 style={{

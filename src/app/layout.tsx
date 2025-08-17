@@ -5,7 +5,7 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'HealthChain - Web3 Health Rewards',
+  title: 'GamifiedHealth - Web3 Health Rewards',
   description: 'A comprehensive Web3 health tracking application with Flow blockchain rewards and hypergraph data storage',
 }
 

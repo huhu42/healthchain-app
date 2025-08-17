@@ -19,13 +19,18 @@
       "key": "5112883de06b9576af62b9aafa7ead685fb7fb46c495039b1a83649d61bff97c"
     },
     "testnet-account": {
-      "address": "$FLOW_ADDRESS",
-      "key": "$FLOW_PRIVATE_KEY"
+      "address": "${FLOW_ADDRESS}",
+      "key": "${FLOW_PRIVATE_KEY}"
     }
   },
   "deployments": {
     "emulator": {
       "emulator-account": [
+        "HealthRewards"
+      ]
+    },
+    "testnet": {
+      "testnet-account": [
         "HealthRewards"
       ]
     }

@@ -254,7 +254,7 @@ export interface WearableDevice {
   supportedMetrics: HealthDataType[]
 }
 
-export interface HealthDataSource {
+export interface HealthDataSourceConfig {
   id: string
   name: string
   type: HealthDataSource
@@ -313,11 +313,10 @@ export interface ChallengeParticipation {
 }
 
 // Error Types
-export interface HealthChainError {
+export interface GamifiedHealthError {
   code: string
   message: string
-  details?: Record<string, any>
-  timestamp: Date
+  details?: any
 }
 
 export type ErrorCode = 
@@ -346,7 +345,7 @@ export interface UseHealthDataReturn {
   syncWithWearable: () => Promise<void>
   exportHealthData: (format: 'json' | 'csv' | 'pdf') => Promise<Blob>
   isLoading: boolean
-  error: HealthChainError | null
+  error: GamifiedHealthError | null
 }
 
 export interface UseFlowReturn {
@@ -356,7 +355,7 @@ export interface UseFlowReturn {
   executeTransaction: (cadence: string, args?: any[]) => Promise<string>
   executeScript: (cadence: string, args?: any[]) => Promise<any>
   isLoading: boolean
-  error: HealthChainError | null
+  error: GamifiedHealthError | null
 }
 
 export interface UseWeb3Return {
@@ -368,5 +367,5 @@ export interface UseWeb3Return {
   sendPayment: (amount: number, recipient: string) => Promise<string>
   setupX402Payment: (goalId: string, amount: number) => Promise<string>
   isLoading: boolean
-  error: HealthChainError | null
+  error: GamifiedHealthError | null
 }

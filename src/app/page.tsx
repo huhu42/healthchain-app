@@ -60,14 +60,8 @@ export default function HomePage() {
         </div>
 
         {/* Main Title */}
-        <h1 style={{ 
-          fontSize: '48px', 
-          fontWeight: 'bold', 
-          color: 'white', 
-          margin: '0 0 16px 0',
-          textShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
-        }}>
-          Welcome to HealthChain
+        <h1 style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '16px', color: 'white', textAlign: 'center', margin: '0 0 16px 0' }}>
+          Welcome to GamifiedHealth
         </h1>
 
         {/* Subtitle */}

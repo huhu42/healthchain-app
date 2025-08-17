@@ -5,7 +5,7 @@
 
 set -e
 
-echo "🚀 Deploying HealthChain contracts to Flow blockchain..."
+echo "🚀 Deploying GamifiedHealth contracts to Flow blockchain..."
 
 # Check if Flow CLI is installed
 if ! command -v flow &> /dev/null; then

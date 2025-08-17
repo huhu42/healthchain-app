@@ -34,7 +34,7 @@ interface Web3ProviderProps {
 }
 
 // Initialize Coinbase Wallet SDK
-const APP_NAME = 'HealthChain'
+const APP_NAME = 'GamifiedHealth'
 const APP_LOGO_URL = 'https://example.com/logo.png' // Replace with your logo
 const DEFAULT_ETH_JSONRPC_URL = 'https://mainnet.infura.io/v3/YOUR_INFURA_KEY'
 const DEFAULT_CHAIN_ID = 1

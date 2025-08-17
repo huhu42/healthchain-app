@@ -1,8 +1,8 @@
-# HealthChain Hypergraph Integration
+# GamifiedHealth Hypergraph Integration
 
 ## 🚨 **Current Status: Development Mode**
 
-This is a **work-in-progress** implementation of Hypergraph integration for HealthChain. The current version provides:
+This is a **work-in-progress** implementation of Hypergraph integration for GamifiedHealth. The current version provides:
 
 - ✅ **Complete TypeScript schema definitions** with full type safety
 - ✅ **Placeholder implementations** for all CRUD operations

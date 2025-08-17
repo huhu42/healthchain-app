@@ -5,7 +5,7 @@
 
 set -e
 
-echo "🛠️  Setting up HealthChain development environment..."
+echo "🛠️  Setting up GamifiedHealth development environment..."
 
 # Check Node.js version
 NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)

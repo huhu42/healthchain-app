@@ -13,7 +13,7 @@ export function HypergraphProvider({ children }: HypergraphProviderProps) {
   
   return (
     <HypergraphAppProvider
-      appId="healthchain-app"
+      appId="gamifiedhealth-app"
       mapping={emptyMapping as any}
       chainId={1}
     >
