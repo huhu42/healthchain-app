@@ -10,13 +10,18 @@ import { Card } from './ui'
 export const DashboardOverview = () => {
   const { healthMetrics, goals } = useHealthData()
   const { balance, isConnected } = useWeb3()
-  const { user } = useFlow()
+  const { user, login, logout, isLoading } = useFlow()
 
-  const activeGoals = goals.filter(g => g.status === 'active')
-  const completedGoals = goals.filter(g => g.status === 'completed')
-  const totalRewardsEarned = completedGoals.reduce((sum, goal) => sum + goal.reward, 0)
+  // Only show data if WHOOP is connected
+  const hasWhoopConnection = isConnected
+  const hasFlowConnection = user.loggedIn
 
-  const recentMetrics = healthMetrics.slice(0, 5)
+  // Start with 0 goals until connections are made
+  const activeGoals = hasWhoopConnection ? goals.filter(g => g.status === 'active') : []
+  const completedGoals = hasWhoopConnection ? goals.filter(g => g.status === 'completed') : []
+  const totalRewardsEarned = hasWhoopConnection ? completedGoals.reduce((sum, goal) => sum + goal.reward, 0) : 0
+
+  const recentMetrics = hasWhoopConnection ? healthMetrics.slice(0, 5) : []
 
   const stats = [
     {
@@ -80,6 +85,109 @@ export const DashboardOverview = () => {
             }}></div>
             <span style={{ fontSize: '14px', color: 'white' }}>Flow {user.loggedIn ? 'Connected' : 'Disconnected'}</span>
           </div>
+          
+          {/* Flow Connect Button */}
+          {!user.loggedIn && (
+            <button
+              onClick={login}
+              disabled={isLoading}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                background: 'linear-gradient(135deg, #00d4aa 0%, #0099cc 100%)',
+                color: 'white',
+                borderRadius: '12px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 16px rgba(0, 212, 170, 0.3)',
+                opacity: isLoading ? 0.7 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoading) {
+                  (e.target as HTMLElement).style.transform = 'translateY(-2px)'
+                  ;(e.target as HTMLElement).style.boxShadow = '0 8px 24px rgba(0, 212, 170, 0.4)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.transform = 'translateY(0)'
+                ;(e.target as HTMLElement).style.boxShadow = '0 4px 16px rgba(0, 212, 170, 0.3)'
+              }}
+            >
+              {isLoading ? (
+                <div style={{ 
+                  width: '16px', 
+                  height: '16px', 
+                  border: '2px solid rgba(255,255,255,0.3)', 
+                  borderTop: '2px solid white', 
+                  borderRadius: '50%', 
+                  animation: 'spin 1s linear infinite' 
+                }}></div>
+              ) : (
+                <div style={{ 
+                  width: '16px', 
+                  height: '16px', 
+                  background: 'white', 
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '10px',
+                  color: '#00d4aa',
+                  fontWeight: 'bold'
+                }}>F</div>
+              )}
+              <span>
+                {isLoading ? 'Connecting...' : 'Connect Flow'}
+              </span>
+            </button>
+          )}
+          
+          {/* Flow Disconnect Button */}
+          {user.loggedIn && (
+            <button
+              onClick={logout}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                background: 'rgba(239, 68, 68, 0.1)',
+                color: '#ef4444',
+                borderRadius: '12px',
+                border: '1px solid rgba(239, 68, 68, 0.2)',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(239, 68, 68, 0.2)'
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(239, 68, 68, 0.1)'
+              }}
+            >
+              <div style={{ 
+                width: '16px', 
+                height: '16px', 
+                background: '#ef4444', 
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '10px',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>F</div>
+              <span>Disconnect Flow</span>
+            </button>
+          )}
+          
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px' }}>
             <div style={{ 
               width: '8px', 
@@ -93,66 +201,85 @@ export const DashboardOverview = () => {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(4, 1fr)', 
-        gap: '16px'
-      }}>
-        {stats.map((stat, index) => {
-          const Icon = stat.icon
-          const iconColors = {
-            'text-blue-600': '#2563eb',
-            'text-green-600': '#16a34a', 
-            'text-purple-600': '#9333ea',
-            'text-yellow-600': '#ca8a04'
-          }
-          const bgColors = {
-            'bg-blue-100': 'rgba(59, 130, 246, 0.1)',
-            'bg-green-100': 'rgba(34, 197, 94, 0.1)',
-            'bg-purple-100': 'rgba(147, 51, 234, 0.1)',
-            'bg-yellow-100': 'rgba(234, 179, 8, 0.1)'
-          }
-          
-          return (
-            <div 
-              key={stat.label}
-              style={{
-                background: 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '16px',
-                padding: '24px',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-4px)';
-                e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0px)';
-                e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>
-                  <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px', margin: '0 0 8px 0' }}>{stat.label}</p>
-                  <p style={{ color: 'white', fontSize: '28px', fontWeight: 'bold', margin: 0 }}>{stat.value}</p>
-                </div>
-                <div style={{ 
-                  padding: '12px', 
-                  borderRadius: '12px', 
-                  background: bgColors[stat.bgColor] || 'rgba(255, 255, 255, 0.1)'
-                }}>
-                  <Icon style={{ width: '24px', height: '24px', color: iconColors[stat.color] || 'white' }} />
+      {/* Stats Grid - Only show if WHOOP is connected */}
+      {hasWhoopConnection ? (
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(4, 1fr)', 
+          gap: '16px'
+        }}>
+          {stats.map((stat, index) => {
+            const Icon = stat.icon
+            const iconColors = {
+              'text-blue-600': '#2563eb',
+              'text-green-600': '#16a34a', 
+              'text-purple-600': '#9333ea',
+              'text-yellow-600': '#ca8a04'
+            }
+            const bgColors = {
+              'bg-blue-100': 'rgba(59, 130, 246, 0.1)',
+              'bg-green-100': 'rgba(34, 197, 94, 0.1)',
+              'bg-purple-100': 'rgba(147, 51, 234, 0.1)',
+              'bg-yellow-100': 'rgba(234, 179, 8, 0.1)'
+            }
+            
+            return (
+              <div 
+                key={stat.label}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-4px)';
+                  e.target.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0px)';
+                  e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '14px', margin: '0 0 8px 0' }}>{stat.label}</p>
+                    <p style={{ color: 'white', fontSize: '28px', fontWeight: 'bold', margin: 0 }}>{stat.value}</p>
+                  </div>
+                  <div style={{ 
+                    padding: '12px', 
+                    borderRadius: '12px', 
+                    background: bgColors[stat.bgColor] || 'rgba(255, 255, 255, 0.1)'
+                  }}>
+                    <Icon style={{ width: '24px', height: '24px', color: iconColors[stat.color] || 'white' }} />
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
+      ) : (
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          borderRadius: '20px',
+          padding: '48px',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          textAlign: 'center'
+        }}>
+          <h3 style={{ fontSize: '24px', fontWeight: '600', color: 'white', margin: '0 0 16px 0' }}>
+            Connect WHOOP to Get Started
+          </h3>
+          <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '16px', margin: '0 0 24px 0' }}>
+            Connect your WHOOP device to start tracking health data and earning rewards
+          </p>
+        </div>
+      )}
 
       {/* Content Row - Side by Side */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
