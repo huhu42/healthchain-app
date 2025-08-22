@@ -1,4 +1,11 @@
-# GamifiedHealth 🏥⚡
+# GamifiedHealth 🏥⚡<img width="331" height="79" alt="Screenshot 2025-08-17 at 1 53 49 AM" src="https://github.com/user-attachments/assets/99ee8978-cae4-42af-9c7a-fd20ce5028b6" />
+
+
+<img width="1267" height="737" alt="Screenshot 2025-08-17 at 1 54 56 AM" src="https://github.com/user-attachments/assets/83c77c8d-a376-4d56-94be-5fb07cb7e653" />
+<img width="1233" height="762" alt="Screenshot 2025-08-17 at 1 54 42 AM" src="https://github.com/user-attachments/assets/12c86d8d-3843-437a-bf55-c6c52e339586" />
+<img width="1225" height="708" alt="Screenshot 2025-08-17 at 1 54 26 AM" src="https://github.com/user-attachments/assets/d499cee8-6b72-4012-9326-505e90a9f379" />
+<img width="1255" height="759" alt="Screenshot 2025-08-17 at 1 53 24 AM" src="https://github.com/user-attachments/assets/931f71eb-781a-40a6-b00a-172f22dd1e19" />
+
 
 A comprehensive Web3 health tracking application that combines Flow blockchain rewards with Hypergraph data storage, creating a gamified health experience with real-time verification and instant payouts.
 
